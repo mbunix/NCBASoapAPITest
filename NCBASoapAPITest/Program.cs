@@ -1,4 +1,8 @@
 using NCBASoapAPICountryServices.Middleware;
+using NCBASoapAPICountryServices.Repositories;
+using NCBASoapAPICountryServices.Repositories.Interfaces;
+using NCBASoapAPICountryServices.Services;
+using NCBASoapAPICountryServices.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.InjectDbContext();
+builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddSingleton<ServiceReference1.CountryInfoServiceSoapType>(
     serviceProvider => {
     var binding = new System.ServiceModel.BasicHttpBinding();

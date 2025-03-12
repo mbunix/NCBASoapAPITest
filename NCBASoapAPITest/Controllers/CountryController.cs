@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NCBASoapAPICountryServices.Data.Requests;
 using NCBASoapAPICountryServices.Models;
@@ -149,19 +150,19 @@ namespace NCBASoapAPICountryServices.Controllers
         }
         [HttpDelete]
         [Route("DeleteCountryInfo")]
-        public async Task<IActionResult> DeleteCountryInfo([FromBody] string ID)
+        public async Task<IActionResult> DeleteCountryInfo([FromBody] DeleteCountryRequest request)
         {
-            _logger.LogInformation($"Received request to delete country information by ID: {ID}");
-            if (!string.IsNullOrEmpty(ID))
+            _logger.LogInformation($"Received request to delete country information by ID: {request.ID}");
+            if (!string.IsNullOrEmpty(request.ID))
             {
                 try
                 {
-                    var countryInfo = await _countryService.DeleteCountryInfo(Guid.Parse(ID));
+                    var countryInfo = await _countryService.DeleteCountryInfo(Guid.Parse(request.ID));
                     return Ok(countryInfo);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error processing country information deletion for ID: {ID}");
+                    _logger.LogError(ex, $"Error processing country information deletion for ID: {request.ID}");
                     return StatusCode(500, "An error occurred while processing your request");
                 }
             }
