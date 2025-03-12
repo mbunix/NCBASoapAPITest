@@ -39,6 +39,7 @@ namespace NCBASoapAPICountryServices.Controllers
                 string countryName = textInfo.ToTitleCase(request.Name.ToLower());
 
                 _logger.LogInformation($"Looking up information for country: {countryName}");
+
                 var countryInfo = await _countryService.GetCountryInfoByName(countryName);
 
                 return Ok(countryInfo);

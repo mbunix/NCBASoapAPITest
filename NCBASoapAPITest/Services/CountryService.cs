@@ -9,8 +9,8 @@ namespace NCBASoapAPICountryServices.Services
     {
         private readonly ICountryRepository _countryRepository;
         public readonly ILogger<CountryService> _logger;
-        private readonly CountryInfoServiceSoapType _client;
-        public CountryService(ICountryRepository repository, ILogger<CountryService> logger, CountryInfoServiceSoapType client)
+        private readonly CountryInfoServiceSoapTypeClient _client;
+        public CountryService(ICountryRepository repository, ILogger<CountryService> logger, CountryInfoServiceSoapTypeClient client)
         {
             _client = client;
             _countryRepository = repository;
@@ -23,9 +23,10 @@ namespace NCBASoapAPICountryServices.Services
             try
             {
                 _logger.LogInformation($"Fetching ISO code for country: {countryName}");
+               
                 var request = new CountryISOCodeRequest();
                 var requestBody = new CountryISOCodeRequestBody { sCountryName = countryName};
-                var response = await _client.CountryISOCodeAsync(request);
+                var response = await _client.CountryISOCodeAsync(countryName);
 
                 _logger.LogInformation($"Retrieved ISO code: {response.Body}");
        
@@ -52,9 +53,12 @@ namespace NCBASoapAPICountryServices.Services
             try
             {
                 _logger.LogInformation($"Fetching country information for: {ISOCode}");
+
                 var request = new CountryNameRequest();
+
+
                 var requestBody = new CountryNameRequestBody {sCountryISOCode =ISOCode };
-                var response = await _client.CountryNameAsync(request);
+                var response = await _client.CountryNameAsync(ISOCode);
 
                 if (response.Body.CountryNameResult == null)
                 {
@@ -85,7 +89,7 @@ namespace NCBASoapAPICountryServices.Services
                 _logger.LogInformation($"Fetching full country information for: {ISOCode}");
                 var request = new FullCountryInfoRequest();
                 var requestBody = new FullCountryInfoRequestBody { sCountryISOCode = ISOCode };
-                var response = await _client.FullCountryInfoAsync(request);
+                var response = await _client.FullCountryInfoAsync(ISOCode);
                 _logger.LogInformation($"Retrieved full country information: {response.Body}");
                 if (response.Body.FullCountryInfoResult == null)
                 {
