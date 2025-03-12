@@ -21,13 +21,13 @@ namespace NCBASoapAPICountryServices.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
-        [Route("LookUpCountry")]
-        public async Task<IActionResult> GetCountryInfo([FromBody] CountryInfoRequest request)
+        [HttpGet]
+        [Route("GetCountryByISOCode")]
+        public async Task<IActionResult> GetCountryInfo([FromQuery] CountryIsoCodeRequest request)
         {
-            _logger.LogInformation($"Received request to lookup country: {request?.Name}");
+            _logger.LogInformation($"Received request to lookup country: {request?.ISoCode}");
 
-            if (string.IsNullOrEmpty(request?.Name))
+            if (string.IsNullOrEmpty(request?.ISoCode))
             {
                 _logger.LogWarning("Invalid request: Country name is null or empty");
                 return BadRequest("Country name is required");
@@ -36,7 +36,7 @@ namespace NCBASoapAPICountryServices.Controllers
             try
             {
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                string countryName = textInfo.ToTitleCase(request.Name.ToLower());
+                string countryName = textInfo.ToTitleCase(request.ISoCode.ToLower());
 
                 _logger.LogInformation($"Looking up information for country: {countryName}");
 
@@ -46,17 +46,17 @@ namespace NCBASoapAPICountryServices.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error processing country lookup for {request.Name}");
+                _logger.LogError(ex, $"Error processing country lookup for {request.ISoCode}");
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }
-        [HttpGet]
-        [Route("GetCountryByISOCode")]
-        public async Task<IActionResult> GetCountryISOCode([FromQuery] string ISoCode)
+        [HttpPost]
+        [Route("GetCountryByName")]
+        public async Task<IActionResult> GetCountryISOCode([FromBody] CountryNameRequest request)
         {
-            _logger.LogInformation($"Received request to lookup ISO code for country: {ISoCode}");
+            _logger.LogInformation($"Received request to lookup ISO code for country: {request.Name}");
 
-            if (string.IsNullOrEmpty(ISoCode))
+            if (string.IsNullOrEmpty(request.Name))
             {
                 _logger.LogWarning("Invalid request: Country name is null or empty");
                 return BadRequest("Country name is required");
@@ -65,14 +65,18 @@ namespace NCBASoapAPICountryServices.Controllers
             try
             {
 
-                _logger.LogInformation($"Looking up ISO code for country: {ISoCode}");
-                var isoCode = await _countryService.GetCountryISOCode(ISoCode);
+                _logger.LogInformation($"Looking up ISO code for country: {request.Name}");
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+                string countryName = textInfo.ToTitleCase(request.Name.ToLower());
+
+                var isoCode = await _countryService.GetCountryISOCode(request.Name);
 
                 return Ok(isoCode);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error processing ISO code lookup for {ISoCode}");
+                _logger.LogError(ex, $"Error processing ISO code lookup for {request.Name}");
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }

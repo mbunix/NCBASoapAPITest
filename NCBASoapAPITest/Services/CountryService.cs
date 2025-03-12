@@ -39,7 +39,7 @@ namespace NCBASoapAPICountryServices.Services
                 {
                     CountryISOCode = response.Body.CountryISOCodeResult,
                 });
-                return response.ToString();
+                return persisted.CountryISOCode;
             }
             catch (Exception ex)
             {

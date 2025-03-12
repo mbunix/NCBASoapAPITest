@@ -9,7 +9,7 @@ namespace NCBASoapAPICountryServices.Middleware
         {
             builder.Services.AddDbContext<CountryDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL"), sqlServerOptionsAction: sqlOptions =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 5, // The maximum number of retry attempts
