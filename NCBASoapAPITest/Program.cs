@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.InjectDbContext();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
-builder.Services.AddSingleton<ServiceReference1.CountryInfoServiceSoapType>(
+builder.Services.AddSingleton<ServiceReference1.CountryInfoServiceSoapTypeClient>(
     serviceProvider => {
     var binding = new System.ServiceModel.BasicHttpBinding();
     binding.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.None;
