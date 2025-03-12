@@ -4,4 +4,9 @@
     {
         public string? Name { get; set; }
     }
+
+    public class DeleteCountryRequest
+    {
+        public string? ID { get; set; }
+    }
 }
