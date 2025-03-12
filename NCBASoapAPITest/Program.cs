@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using NCBASoapAPICountryServices.Context;
 using NCBASoapAPICountryServices.Middleware;
 using NCBASoapAPICountryServices.Repositories;
 using NCBASoapAPICountryServices.Repositories.Interfaces;
@@ -14,6 +16,20 @@ builder.Services.AddSwaggerGen();
 builder.InjectDbContext();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+
+//builder.Services.AddDbContext<CountryDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: sqlOptions =>
+//    {
+//        sqlOptions.EnableRetryOnFailure(
+//            maxRetryCount: 5, // The maximum number of retry attempts
+//            maxRetryDelay: TimeSpan.FromSeconds(30), // The maximum delay between retries
+//            errorNumbersToAdd: null // Optional list of additional error numbers to add to the list of retryable errors
+//        );
+//    });
+//    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+//});
+
 builder.Services.AddSingleton<ServiceReference1.CountryInfoServiceSoapTypeClient>(
     serviceProvider => {
     var binding = new System.ServiceModel.BasicHttpBinding();

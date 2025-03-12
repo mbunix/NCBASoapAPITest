@@ -1,12 +1,16 @@
 ﻿namespace NCBASoapAPICountryServices.Data.Requests
 {
-    public class CountryInfoRequest
+    public class CountryIsoCodeRequest
     {
-        public string? Name { get; set; }
+        public string? ISoCode { get; set; }
     }
 
     public class DeleteCountryRequest
     {
         public string? ID { get; set; }
+    }
+    public class CountryNameRequest
+    {
+        public string? Name { get; set; }
     }
 }
