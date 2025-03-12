@@ -1,0 +1,6 @@
+@NCBASoapAPITest_HostAddress = http://localhost:5253
+
+GET {{NCBASoapAPITest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
