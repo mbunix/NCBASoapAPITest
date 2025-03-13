@@ -22,4 +22,4 @@ To import the Postman collection, follow these steps:
 1. Open Postman.
 2. Click on the "Import" button.
 3. Select "Import from File".
-4. Choose the `collection.json` file from the repository.
+4. Choose the `swagger.json` file from the repository in the root folder.
