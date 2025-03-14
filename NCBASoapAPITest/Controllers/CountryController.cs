@@ -35,12 +35,8 @@ namespace NCBASoapAPICountryServices.Controllers
 
             try
             {
-                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                string countryName = textInfo.ToTitleCase(request.ISoCode.ToLower());
 
-                _logger.LogInformation($"Looking up information for country: {countryName}");
-
-                var countryInfo = await _countryService.GetCountryInfoByName(countryName);
+                var countryInfo = await _countryService.GetCountryInfoByName(request.ISoCode);
 
                 return Ok(countryInfo);
             }
